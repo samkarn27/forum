@@ -1,0 +1,31 @@
+{
+  "name": "forum",
+  "version": "1.0.0",
+  "description": "forum where users can post about their relationship issues",
+  "main": "index.js",
+  "scripts": {
+    "start:server": "npm start --prefix server",
+    "start:client": "npm start --prefix client",
+    "start": "concurrently \"npm run start:server\" \"npm run start:client\""
+  },
+  "workspaces": [
+    "server",
+    "client"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/karnBaba/forum.git"
+  },
+  "author": "Sami Wardhan Karn",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/karnBaba/forum/issues"
+  },
+  "homepage": "https://github.com/karnBaba/forum#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.9.5",
+    "passport": "^0.4.1",
+    "react": "^16.13.1"
+  }
+}

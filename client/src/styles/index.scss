@@ -1,0 +1,19 @@
+@import "variables/index";
+
+//Import mixins
+
+// @import 'mixins/background';
+@import "mixins/container";
+@import "mixins/button";
+@import "mixins/font";
+@import "mixins/layers";
+@import "mixins/spacings";
+@import "mixins/typography";
+
+//Import Core
+// @import 'common/_background.scss';
+@import "common/container";
+// @import "common/font";
+@import "common/layers";
+@import "common/spacings";
+@import "common/typography";
