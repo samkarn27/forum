@@ -47,7 +47,7 @@ $lh--h4-base: 20px;
 $lh--large: 30px;
 $lh--large-base: 26px;
 $lh--regular: 26px;
-$lh--regular-tight: $lh-regular;
+$lh--regular-tight: $lh--regular;
 $lh--small: 22px;
 $lh--small-tight: $lh--small;
 $lh--smallest: 18px;
@@ -86,6 +86,7 @@ $breakpoints: sml med lrg x-lrg;
 
 //Layer constants
 $border-width: 4px;
+$border-radius: 4px;
 $border-radius-circle: 50%;
 $border-radius-reset: 0;
 $border-width: 1px;
@@ -101,6 +102,8 @@ $font-reg: helvetica, arial, sans-serif;
 
 //Padding
 $sml-med-padding: 5%;
+$lrg-padding: 9%;
+$gaint-padding: 100px;
 
 //Spacing
 $spacer-unit: 8;

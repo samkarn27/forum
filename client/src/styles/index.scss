@@ -1,7 +1,5 @@
 @import "variables/index";
-
-//Import mixins
-
+@import "~breakpoint-sass/stylesheets/breakpoint"; //Import mixins
 // @import 'mixins/background';
 @import "mixins/container";
 @import "mixins/button";
