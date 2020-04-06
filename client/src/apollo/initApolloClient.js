@@ -10,26 +10,26 @@ let apolloCLient = null;
 const createDefaultCache = () => new InMemoryCache();
 
 const createAuthenticationLink = () => {
-  const request = operation => {
+  const request = (operation) => {
     const token = localStorage.getItem("token");
     operation.setContext({
       headers: {
-        authorization: token
-      }
+        authorization: token,
+      },
     });
   };
 
   return new ApolloLink(
     (operation, forward) =>
-      new Observable(observer => {
+      new Observable((observer) => {
         let handle;
         Promise.resolve(operation)
-          .then(oper => request(oper))
+          .then((oper) => request(oper))
           .then(() => {
             handle = forward(operation).subscribe({
               next: observer.next.bind(observer),
               error: observer.error.bind(observer),
-              complete: observer.complete.bind(observer)
+              complete: observer.complete.bind(observer),
             });
           })
           .catch(observer.error.bind(observer));
@@ -41,7 +41,7 @@ const createAuthenticationLink = () => {
   );
 };
 
-const createApolloClient = apolloConfig => {
+const createApolloClient = (apolloConfig) => {
   const { authLink, uploadLink, wsLink } = apolloConfig;
   const cache = createDefaultCache();
 
@@ -56,13 +56,13 @@ const createApolloClient = apolloConfig => {
 
   const config = {
     cache,
-    link: ApolloLink.from([authLink, terminatingLink])
+    link: ApolloLink.from([authLink, terminatingLink]),
   };
 
   return new ApolloClient(config);
 };
 
-export default serverUrl => {
+export default (serverUrl) => {
   const serverWebSoketUrl =
     serverUrl &&
     serverUrl.replace("https://", "ws://").replace("http://", "ws://");
@@ -74,18 +74,18 @@ export default serverUrl => {
   const wsLink = new WebSocketLink({
     uri: serverWebSoketUrl,
     options: {
-      timeout: process.env.WEBSOCKET_TIMEOUT,
+      timeout: process.env.REACT_APP_CWEBSOCKET_TIMEOUT,
       reconnect: true,
       connectionParams: {
-        authorization: authToken
-      }
-    }
+        authorization: authToken,
+      },
+    },
   });
 
   const apolloConfig = {
     authLink,
     uploadLink,
-    wsLink
+    wsLink,
   };
 
   if (!apolloCLient) {

@@ -1,4 +1,4 @@
-import {} from "dotenv/config";
+import dotenv from "dotenv";
 import React from "react";
 import { render } from "react-dom";
 import { ApolloProvider } from "react-apollo";
@@ -11,7 +11,8 @@ console.log("process env", process.env);
 console.log("server url", process.env.SERVER_URL);
 const SERVER_URL = "http://localhost:4000/graphql";
 
-const serverUrl = process.env.SERVER_URL || SERVER_URL;
+dotenv.config();
+const serverUrl = process.env.REACT_APP_SERVER_URL || SERVER_URL;
 const client = initApolloClient(serverUrl);
 
 const InitApp = () => (
