@@ -1,13 +1,13 @@
 import React from "react";
-//import '../../styles/';
+//import "../../styles/";
 
 import Icon from "../common/Icon";
 
 const App = () => {
   return (
     <div>
-      <h1 class="text--blue--light">Hello Sami</h1>
-      <Icon icon="unlock" />
+      <h1 className="text--blue--light">Hello Sami</h1>
+      <Icon icon="unlock" className="" size="md" />
     </div>
   );
 };

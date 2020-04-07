@@ -3,9 +3,29 @@ import PropTypes from "prop-types";
 //import "svgxuse";
 import classNames from "../../../utils/class-names";
 import SVGSTORE_PATH from "../../../utils/svgstore-path";
+import iconSizes from "../../../styles/mixins/_icon.scss";
+import "./icon.scss";
 
-const Icon = ({ className, icon, style }) => {
-  const iconClassName = classNames(Icon.displayName, className);
+const DEFAULT_ICON_SIZE = "md";
+const iconPrefix = "icon-";
+console.log(
+  "iconsizes",
+  Object.keys(iconSizes).filter((size) => size.startsWith(iconPrefix))
+);
+const allowedSizes = Object.keys(iconSizes)
+  .filter((size) => size.startsWith(iconPrefix))
+  .map((size) => size.replace(iconPrefix, ""));
+
+console.log("allowed sizes", allowedSizes);
+
+const Icon = ({ className, icon, style, size }) => {
+  if (!allowedSizes.includes(size)) {
+    size = DEFAULT_ICON_SIZE;
+  }
+
+  const iconClassName = classNames(Icon.displayName, className, {
+    [`${Icon.displayName}--size-${size}`]: allowedSizes.includes(size),
+  });
 
   return (
     <svg
@@ -27,11 +47,13 @@ Icon.propTypes = {
   className: PropTypes.string,
   icon: PropTypes.string.isRequired,
   style: PropTypes.object,
+  size: PropTypes.oneOf(allowedSizes),
 };
 
 Icon.defaultProps = {
   className: "",
   style: {},
+  size: "md",
 };
 
 export default Icon;

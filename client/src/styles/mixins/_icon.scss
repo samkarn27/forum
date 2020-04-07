@@ -1,0 +1,26 @@
+@import "../variables/index";
+
+$iconSizes: (
+  "sm": 16px,
+  "md": 24px,
+  "md-plus": 26px,
+  "lg": 32px,
+);
+
+@mixin spread($map) {
+  @each $property, $value in $map {
+    #{$property}: $value;
+  }
+}
+
+:export {
+  icon: {
+    @include spread($iconSizes);
+  }
+}
+
+@mixin icon-size($size: "md") {
+  $iconSize: map-get($iconSizes, $size);
+  height: $iconSize;
+  width: $iconSize;
+}
