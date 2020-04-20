@@ -8,7 +8,7 @@ import { uploadToCloudinary } from "../../utils/image-helpers";
 import {
   IS_USER_ONLINE,
   AUTH_TOKEN_EXPIRY,
-  RESET_PASSWORD_TOKEN_EXPIRY
+  RESET_PASSWORD_TOKEN_EXPIRY,
 } from "../../constants/index";
 
 const Query = {
@@ -33,9 +33,9 @@ const Query = {
           { path: "author" },
           { path: "follow" },
           { path: "like", populate: { path: "post" } },
-          { path: "comment", populate: { path: "post" } }
+          { path: "comment", populate: { path: "post" } },
         ],
-        match: { seen: false }
+        match: { seen: false },
       });
 
     user.newNotifications = user.notifications;
@@ -45,19 +45,19 @@ const Query = {
       {
         $match: {
           receiver: mongoose.Types.ObjectId(authUser.id),
-          seen: false
-        }
+          seen: false,
+        },
       },
       {
-        $sort: { createdAt: -1 }
+        $sort: { createdAt: -1 },
       },
       {
         $group: {
           _id: "$sender",
           doc: {
-            $first: "$$ROOT"
-          }
-        }
+            $first: "$$ROOT",
+          },
+        },
       },
       { $replaceRoot: { newRoot: "$doc" } },
       {
@@ -65,21 +65,21 @@ const Query = {
           from: "users",
           localField: "sender",
           foreignField: "_id",
-          as: "sender"
-        }
-      }
+          as: "sender",
+        },
+      },
     ]);
 
     // Transform data
     const newConversations = [];
-    lastUnseenMessages.map(u => {
+    lastUnseenMessages.map((u) => {
       const user = {
         id: u.sender[0]._id,
         username: u.sender[0].username,
         fullName: u.sender[0].fullName,
         image: u.sender[0].image,
         lastMessage: u.message,
-        lastMessageCreatedAt: u.createdAt
+        lastMessageCreatedAt: u.createdAt,
       };
 
       newConversations.push(user);
@@ -125,15 +125,15 @@ const Query = {
                   { path: "author" },
                   { path: "follow" },
                   { path: "like" },
-                  { path: "comment" }
-                ]
-              }
-            ]
+                  { path: "comment" },
+                ],
+              },
+            ],
           },
           { path: "comments", populate: { path: "author" } },
-          { path: "likes" }
+          { path: "likes" },
         ],
-        options: { sort: { createdAt: "desc" } }
+        options: { sort: { createdAt: "desc" } },
       })
       .populate("likes")
       .populate("followers")
@@ -144,8 +144,8 @@ const Query = {
           { path: "author" },
           { path: "follow" },
           { path: "like" },
-          { path: "comment" }
-        ]
+          { path: "comment" },
+        ],
       });
 
     if (!user) {
@@ -168,11 +168,11 @@ const Query = {
     const follow = await Follow.find({ follower: userId }, { _id: 0 }).select(
       "user"
     );
-    follow.map(f => userFollowing.push(f.user));
+    follow.map((f) => userFollowing.push(f.user));
 
     // Find users that user is not following
     const query = {
-      $and: [{ _id: { $ne: userId } }, { _id: { $nin: userFollowing } }]
+      $and: [{ _id: { $ne: userId } }, { _id: { $nin: userFollowing } }],
     };
     const count = await User.where(query).countDocuments();
     const users = await User.find(query)
@@ -184,8 +184,8 @@ const Query = {
           { path: "author" },
           { path: "follow" },
           { path: "like" },
-          { path: "comment" }
-        ]
+          { path: "comment" },
+        ],
       })
       .skip(skip)
       .limit(limit)
@@ -207,11 +207,11 @@ const Query = {
     const users = User.find({
       $or: [
         { username: new RegExp(searchQuery, "i") },
-        { fullName: new RegExp(searchQuery, "i") }
+        { fullName: new RegExp(searchQuery, "i") },
       ],
       _id: {
-        $ne: authUser.id
-      }
+        $ne: authUser.id,
+      },
     }).limit(50);
 
     return users;
@@ -230,7 +230,7 @@ const Query = {
       { follower: userId },
       { _id: 0 }
     ).select("user");
-    following.map(f => userFollowing.push(f.user));
+    following.map((f) => userFollowing.push(f.user));
     userFollowing.push(userId);
 
     // Find random users
@@ -246,9 +246,7 @@ const Query = {
       }
     }
 
-    const randomUsers = await User.find(query)
-      .skip(random)
-      .limit(LIMIT);
+    const randomUsers = await User.find(query).skip(random).limit(LIMIT);
 
     return randomUsers;
   },
@@ -264,15 +262,15 @@ const Query = {
       email,
       passwordResetToken: token,
       passwordResetTokenExpiry: {
-        $gte: Date.now() - RESET_PASSWORD_TOKEN_EXPIRY
-      }
+        $gte: Date.now() - RESET_PASSWORD_TOKEN_EXPIRY,
+      },
     });
     if (!user) {
       throw new Error("This token is either invalid or expired!");
     }
 
     return { message: "Success" };
-  }
+  },
 };
 
 const Mutation = {
@@ -285,7 +283,7 @@ const Mutation = {
   signin: async (root, { input: { emailOrUsername, password } }, { User }) => {
     const user = await User.findOne().or([
       { email: emailOrUsername },
-      { username: emailOrUsername }
+      { username: emailOrUsername },
     ]);
 
     if (!user) {
@@ -298,7 +296,7 @@ const Mutation = {
     }
 
     return {
-      token: generateAuthToken(user, process.env.SECRET, AUTH_TOKEN_EXPIRY)
+      token: generateAuthToken(user, process.env.SECRET, AUTH_TOKEN_EXPIRY),
     };
   },
   /**
@@ -359,7 +357,7 @@ const Mutation = {
       "explore",
       "people",
       "notifications",
-      "post"
+      "post",
     ];
     if (frontEndPages.includes(username)) {
       throw new Error("This username isn't available. Please try another.");
@@ -374,11 +372,11 @@ const Mutation = {
       fullName,
       email,
       username,
-      password
+      password,
     }).save();
 
     return {
-      token: generateAuthToken(newUser, process.env.SECRET, AUTH_TOKEN_EXPIRY)
+      token: generateAuthToken(newUser, process.env.SECRET, AUTH_TOKEN_EXPIRY),
     };
   },
   /**
@@ -411,14 +409,14 @@ const Mutation = {
     const mailOptions = {
       to: email,
       subject: "Password Reset",
-      html: resetLink
+      html: resetLink,
     };
 
     await sendEmail(mailOptions);
 
     // Return success message
     return {
-      message: `A link to reset your password has been sent to ${email}`
+      message: `A link to reset your password has been sent to ${email}`,
     };
   },
   /**
@@ -446,8 +444,8 @@ const Mutation = {
       email,
       passwordResetToken: token,
       passwordResetTokenExpiry: {
-        $gte: Date.now() - RESET_PASSWORD_TOKEN_EXPIRY
-      }
+        $gte: Date.now() - RESET_PASSWORD_TOKEN_EXPIRY,
+      },
     });
     if (!user) {
       throw new Error("This token is either invalid or expired!.");
@@ -461,7 +459,7 @@ const Mutation = {
 
     // Return success message
     return {
-      token: generateAuthToken(user, process.env.SECRET, AUTH_TOKEN_EXPIRY)
+      token: generateAuthToken(user, process.env.SECRET, AUTH_TOKEN_EXPIRY),
     };
   },
   /**
@@ -505,7 +503,7 @@ const Mutation = {
     throw new Error(
       "Something went wrong while uploading image to Cloudinary."
     );
-  }
+  },
 };
 
 const Subscription = {
@@ -516,8 +514,8 @@ const Subscription = {
     subscribe: withFilter(
       () => pubSub.asyncIterator(IS_USER_ONLINE),
       (payload, variables, { authUser }) => variables.authUserId === authUser.id
-    )
-  }
+    ),
+  },
 };
 
 export default { Query, Mutation, Subscription };

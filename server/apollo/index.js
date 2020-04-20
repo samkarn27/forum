@@ -4,12 +4,6 @@ import { PubSub } from "apollo-server";
 
 import { IS_USER_ONLINE } from "../constants/index";
 
-export const generateAuthToken = (user, secret, expiresIn) => {
-  const { id, fullName, email } = user;
-
-  return jwt.sign({ id, fullName, email }, secret, { expiresIn });
-};
-
 // Export pubSub instance for publishing events
 export const pubSub = new PubSub();
 
@@ -18,7 +12,7 @@ export const pubSub = new PubSub();
  *
  * @param {obj} req
  */
-const checkAuthorization = (token = "sami") => {
+const checkAuthorization = (token) => {
   return new Promise(async (resolve, reject) => {
     debugger;
     try {
@@ -34,7 +28,16 @@ const checkAuthorization = (token = "sami") => {
     } catch (err) {
       console.log("Error block");
     }
-  }).catch(err => console.log("Couldn't authenticate user"));
+  }).catch((err) => console.log("Couldn't authenticate user"));
+};
+
+export const generateAuthToken = (user, secret, expiresIn) => {
+  debugger;
+  const { password, fullName, email } = user;
+  debugger;
+  console.log("generate auth token ", user);
+
+  return jwt.sign({ password, fullName, email }, secret, { expiresIn });
 };
 
 /**
@@ -55,7 +58,7 @@ export const createApolloServer = (types, resolvers, models) => {
 
       let authUser;
       console.log("Request head Authorization", req.headers.authorization);
-      if (req.headers.authorization) {
+      if (req.headers.authorization !== "null") {
         try {
           const user = await checkAuthorization(req.headers["authorization"]);
           if (user) {
@@ -78,13 +81,13 @@ export const createApolloServer = (types, resolvers, models) => {
           pubSub.publish(IS_USER_ONLINE, {
             isUserOnline: {
               userId: user.id,
-              isOnline: true
-            }
+              isOnline: true,
+            },
           });
 
           // Add authUser to socket's context, so we have access to it, in onDisconnect method
           return {
-            authUser: user
+            authUser: user,
           };
         }
       },
@@ -96,19 +99,19 @@ export const createApolloServer = (types, resolvers, models) => {
           pubSub.publish(IS_USER_ONLINE, {
             isUserOnline: {
               userId: c.authUser.id,
-              isOnline: false
-            }
+              isOnline: false,
+            },
           });
 
           // Update user isOnline to false in DB
           await models.User.findOneAndUpdate(
             { email: c.authUser.email },
             {
-              isOnline: false
+              isOnline: false,
             }
           );
         }
-      }
-    }
+      },
+    },
   });
 };

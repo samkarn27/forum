@@ -1,11 +1,32 @@
-import React, { useState } from "react";
+import React from "react";
+import classNames from "../../../utils/class-names";
+import "./Button.scss";
 
-function Button(props) {
-  const [size] = useState(props.size);
-  const [variant] = useState(props.variant);
+const Button = (props) => {
+  const { primary, secondary, className, onClick, onBlur, buttonText } = props;
+
+  const classes = classNames(className, {
+    ["Button--primary"]: primary && !secondary,
+    ["Button--secondary"]: !primary && secondary,
+  });
+
+  const onClickHandler = (e) => {
+    onClick(e);
+  };
+
+  const onBlurHandler = (e) => {
+    onBlur(e);
+  };
+
   return (
-    <button className={`btn-${variant} btn-${size}`}>{props.children}</button>
+    <button
+      className={`${classes}`}
+      onClick={onClickHandler}
+      onBlur={onBlurHandler}
+    >
+      {buttonText}
+    </button>
   );
-}
+};
 
 export default Button;

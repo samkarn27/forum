@@ -1,13 +1,13 @@
 @import "variables/index";
 @import "~breakpoint-sass/stylesheets/breakpoint"; //Import mixins
-// @import 'mixins/background';
+//@import "mixins/background";
 @import "mixins/container";
-@import "mixins/button";
 @import "mixins/font";
 @import "mixins/icon";
 @import "mixins/layers";
 @import "mixins/spacings";
 @import "mixins/typography";
+@import "mixins/button";
 
 //Import Core
 // @import 'common/_background.scss';

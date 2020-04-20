@@ -2,8 +2,8 @@ import gql from "graphql-tag";
 import {
   postCommentsPayload,
   postAuthorPayload,
-  postLikesPayload
-} from "./post";
+  postLikesPayload,
+} from "../Post/index";
 
 /**
  * Records to select from user

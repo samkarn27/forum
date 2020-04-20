@@ -78,7 +78,7 @@ $breakpoint-map: (
   sml: "min-width:" + $sml-width,
   med: "min-width:" + $med-width,
   lrg: "min-width:" + $lrg-width,
-  x-lrg: "min-width:" + $x-lrg-width
+  x-lrg: "min-width:" + $x-lrg-width,
 );
 
 //Breakpoints
@@ -137,3 +137,18 @@ $x10-space: $x10-space-unit * 1px;
 $x11-space: $x11-space-unit * 1px;
 $x12-space: $x12-space-unit * 1px;
 $x16-space: $x16-space-unit * 1px;
+
+//Button width
+$btn-min-width: 134px;
+
+:export {
+  white: $white;
+  light: $light;
+  lighter: $lighter;
+  dark: $dark;
+  darker: $darker;
+  light: $light;
+  lighter: $lighter;
+  blue: $blue;
+  blue-light: $blue-light;
+}

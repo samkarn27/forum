@@ -8,32 +8,33 @@ import models from "./models";
 import types from "./types/index";
 import resolvers from "./resolvers";
 
-const { MONGO_URL, CLIENT_URL, SERVER_PORT } = process.env;
+const { MONGO_URL, SERVER_PORT } = process.env;
 console.log("mongo url", typeof MONGO_URL);
 mongoose
   .connect(MONGO_URL, {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    useCreateIndex: true,
   })
   .then(() => {
     console.log(`Mongodb database connection successful`);
   })
-  .catch(err => {
+  .catch((err) => {
     console.error(`Error in databse connection ${err}`);
   });
 
 const app = express();
-app.use(cors({ credentials: true }));
+app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
 
 const server = createApolloServer(types, resolvers, models);
 server.applyMiddleware({ app, path: "/graphql" });
 
 // Create http server and add subscriptions to it
 const httpServer = createServer(app);
-//server.installSubscriptionHandlers(httpServer);
+server.installSubscriptionHandlers(httpServer);
 
 // Listen to HTTP and WebSocket server
-const port = process.env.port || SERVER_PORT;
+const port = SERVER_PORT;
 httpServer.listen({ port: port }, () => {
   console.log(`server ready at port ${port}`);
 });
