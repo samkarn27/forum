@@ -1,6 +1,7 @@
 import { ApolloClient } from "apollo-client";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import { ApolloLink, Observable, split } from "apollo-link";
+import { onError } from "apollo-link-error";
 import { WebSocketLink } from "apollo-link-ws";
 import { createUploadLink } from "apollo-upload-client";
 import { getMainDefinition } from "apollo-utilities";
@@ -41,10 +42,26 @@ const createAuthenticationLink = () => {
   );
 };
 
+/**
+ * Helper functions that handles error cases
+ */
+const handleErrors = () => {
+  return onError(({ graphQLErrors, networkError }) => {
+    if (graphQLErrors) {
+      console.log("graphQLErrors", graphQLErrors);
+    }
+    if (networkError) {
+      console.log("networkError", networkError);
+    }
+  });
+};
+
 const createApolloClient = (apolloConfig) => {
   const { authLink, uploadLink, wsLink } = apolloConfig;
   const cache = createDefaultCache();
-
+  const errorLink = handleErrors();
+  wsLink.subscriptionClient.maxConnectTimeGenerator.duration = () =>
+    wsLink.subscriptionClient.maxConnectTimeGenerator.max;
   const terminatingLink = split(
     ({ query }) => {
       const { kind, operation } = getMainDefinition(query);
@@ -56,7 +73,7 @@ const createApolloClient = (apolloConfig) => {
 
   const config = {
     cache,
-    link: ApolloLink.from([authLink, terminatingLink]),
+    link: ApolloLink.from([errorLink, authLink, terminatingLink]),
   };
 
   return new ApolloClient(config);
@@ -69,15 +86,14 @@ export default (serverUrl) => {
   const authLink = createAuthenticationLink();
   const uploadLink = createUploadLink({ uri: serverUrl });
 
-  // Create WebSocket link
-  const authToken = localStorage.getItem("token");
+  const token = localStorage.getItem("token") || "";
   const wsLink = new WebSocketLink({
     uri: serverWebSoketUrl,
     options: {
-      timeout: process.env.REACT_APP_CWEBSOCKET_TIMEOUT,
+      timeout: process.env.REACT_APP_WEBSOCKET_TIMEOUT,
       reconnect: true,
       connectionParams: {
-        authorization: authToken,
+        authorization: token,
       },
     },
   });

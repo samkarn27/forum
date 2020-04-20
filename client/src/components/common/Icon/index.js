@@ -8,17 +8,12 @@ import "./icon.scss";
 
 const DEFAULT_ICON_SIZE = "md";
 const iconPrefix = "icon-";
-console.log(
-  "iconsizes",
-  Object.keys(iconSizes).filter((size) => size.startsWith(iconPrefix))
-);
+
 const allowedSizes = Object.keys(iconSizes)
   .filter((size) => size.startsWith(iconPrefix))
   .map((size) => size.replace(iconPrefix, ""));
 
-console.log("allowed sizes", allowedSizes);
-
-const Icon = ({ className, icon, style, size }) => {
+export const Icon = ({ className, icon, style, size }) => {
   if (!allowedSizes.includes(size)) {
     size = DEFAULT_ICON_SIZE;
   }
@@ -55,5 +50,3 @@ Icon.defaultProps = {
   style: {},
   size: "md",
 };
-
-export default Icon;
