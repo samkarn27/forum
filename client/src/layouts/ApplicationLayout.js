@@ -8,13 +8,13 @@ import Header from "../components/app/Header";
 import SideBar from "../components/app/SideBar";
 //import UserSuggestions from "./UserSuggestions";
 
-import Home from "../pages/Home/index";
-import Profile from "../pages/Profile/index";
-import Post from "../pages/Posts/index";
-import Messages from "../pages/Messages/index";
-import People from "../pages/People/index";
-import Notifications from "../pages/Notifications/index";
-import Search from "../pages/Search/index";
+import Home from "../pages/Home";
+import Profile from "../pages/Profile";
+import Post from "../pages/Posts";
+import Messages from "../pages/Messages";
+import People from "../pages/People";
+import Notifications from "../pages/Notifications";
+import Search from "../pages/Search";
 
 import { useWindowSize } from "../components/hooks/useWindowSize";
 import { useClickOutside } from "../components/hooks/useClickOutside";
@@ -43,7 +43,7 @@ const Root = styled.div`
 /**
  * Main layout of the app, when user is authenticated
  */
-const AppLayout = ({ location, authUser }) => {
+const ApplicationLayout = ({ location, authUser }) => {
   const [{ auth }, dispatch] = useStore();
 
   const windowSize = useWindowSize();
@@ -103,9 +103,9 @@ const AppLayout = ({ location, authUser }) => {
   );
 };
 
-AppLayout.propTypes = {
+ApplicationLayout.propTypes = {
   location: PropTypes.object.isRequired,
   authUser: PropTypes.object.isRequired,
 };
 
-export default withRouter(AppLayout);
+export default withRouter(ApplicationLayout);

@@ -52,8 +52,9 @@ const Home = () => {
     setModalPostId(postId);
   };
 
+  const userid = auth && auth.user && auth.user.id;
   const variables = {
-    userId: auth.user.id,
+    userId: userid,
     skip: 0,
     limit: HOME_PAGE_POSTS_LIMIT,
   };
@@ -73,6 +74,7 @@ const Home = () => {
       >
         {({ data, loading, fetchMore, networkStatus }) => {
           if (loading && networkStatus === 1) {
+            debugger;
             return (
               <Skeleton
                 height={500}
@@ -87,15 +89,11 @@ const Home = () => {
 
           if (!posts.length) {
             return (
-              <Empty>
+              <div>
                 <StyledA to={generatePath(Routes.SEARCH)}>
                   Explore new posts
-                </StyledA>{" "}
-                or{" "}
-                <StyledA to={generatePath(Routes.PEOPLE)}>
-                  Find new people
                 </StyledA>
-              </Empty>
+              </div>
             );
           }
 

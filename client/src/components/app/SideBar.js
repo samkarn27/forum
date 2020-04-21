@@ -77,14 +77,14 @@ const FullName = styled.div`
 const SideBar = ({ location, isOpen, sideBarRef }) => {
   const [{ auth }] = useStore();
 
-  const isAuthUsersProfilePage =
-    auth.user.username === location.pathname.substring(1);
+  const username = auth && auth.user && auth.user.username;
+  const isAuthUsersProfilePage = username === location.pathname.substring(1);
 
   return (
     <Root isOpen={isOpen} ref={sideBarRef}>
       <User
         exact
-        to={generatePath(Routes.USER_PROFILE, { username: auth.user.username })}
+        to={generatePath(Routes.USER_PROFILE, { username: username })}
         activeClassName="selected"
       >
         <UserImage image={auth.user.image} size={20} />

@@ -110,6 +110,9 @@ const MessageCount = styled.span`
  */
 const Header = ({ location, toggleSideBar }) => {
   const [{ auth }] = useStore();
+  const newConversations = auth && auth.user && auth.user.newConversations;
+  const newNotifications = auth && auth.user && auth.user.newNotifications;
+  const userImage = auth && auth.user && auth.user.image;
 
   const [dropdownOpen, setDropdownOpen] = useState(null);
   const [dropdownData, setDropdownData] = useState([]);
@@ -142,9 +145,9 @@ const Header = ({ location, toggleSideBar }) => {
       closeDropDown();
     } else {
       if (dropdownType === "NOTIFICATION") {
-        setDropdownData(auth.user.newNotifications);
+        setDropdownData(newNotifications);
       } else if (dropdownType === "MESSAGE") {
-        setDropdownData(auth.user.newConversations);
+        setDropdownData(newConversations);
       }
 
       setDropdownOpen(dropdownType);
@@ -169,8 +172,10 @@ const Header = ({ location, toggleSideBar }) => {
         <RightSide>
           <Spacing right="md">
             <Button ghost onClick={() => handleIconClick("MESSAGE")}>
-              {auth.user.newConversations.length > 0 && (
-                <MessageCount>{auth.user.newConversations.length}</MessageCount>
+              {newConversations > 0 && (
+                <MessageCount>
+                  {newConversations && newConversations.length}
+                </MessageCount>
               )}
 
               <Icon icon="envelope" />
@@ -179,9 +184,9 @@ const Header = ({ location, toggleSideBar }) => {
 
           <Spacing right="md">
             <Button ghost onClick={() => handleIconClick("NOTIFICATION")}>
-              {auth.user.newNotifications.length > 0 && (
+              {newNotifications && newNotifications.length > 0 && (
                 <NotificationCount>
-                  {auth.user.newNotifications.length}
+                  {newNotifications && newNotifications.length}
                 </NotificationCount>
               )}
               <Icon icon="bell" />
@@ -189,7 +194,7 @@ const Header = ({ location, toggleSideBar }) => {
           </Spacing>
 
           <Button ghost onClick={() => handleIconClick("USER")}>
-            <UserImage image={auth.user.image} />
+            <UserImage image={userImage} />
           </Button>
         </RightSide>
 

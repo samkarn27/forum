@@ -6,12 +6,12 @@ const AppStoreContext = React.createContext();
 
 const store = {
   message: messageInitialState,
-  auth: initialState
+  auth: initialState,
 };
 
 const reducers = (store, action) => ({
   message: messageReducer(store.message, action),
-  auth: authReducer(store.auth, action)
+  auth: authReducer(store.auth, action),
 });
 
 export const AppStoreProvider = ({ children }) => (

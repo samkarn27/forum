@@ -2,18 +2,12 @@ import React, { useEffect } from "react";
 import { useQuery } from "@apollo/react-hooks";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
-//import { GlobalStyle } from './GlobalStyles';
-
 import { GET_AUTH_USER } from "../../graphql/User/index";
 import { GET_NEW_CONVERSATIONS_SUBSCRIPTION } from "../../graphql/Message/index";
 import { NOTIFICATION_CREATED_OR_DELETED } from "../../graphql/Notification/index";
 
-//import Message from "components/Message";
-//import { Loading } from "components/Loading";
-//import AuthLayout from "pages/Auth/AuthLayout";
-//import AppLayout from "./AppLayout";
-//import ScrollToTop from "./ScrollToTop";
-//import AppLanding from "../../layouts/AppLanding";
+import Message from "../Message";
+import { Loading } from "../common/Loading";
 import ApplicationLayout from "../../layouts/ApplicationLayout";
 import AuthenticationLayout from "../../layouts/AuthenticationLayout";
 
@@ -111,6 +105,8 @@ const App = () => {
     };
   }, [subscribeToMore]);
 
+  if (loading) return <Loading top="xl" />;
+
   return (
     <Router>
       <Switch>
@@ -126,6 +122,14 @@ const App = () => {
           />
         )}
       </Switch>
+      {message.content.text && (
+        <Message
+          type={message.content.type}
+          autoClose={message.content.autoClose}
+        >
+          {message.content.text}
+        </Message>
+      )}
     </Router>
   );
 };

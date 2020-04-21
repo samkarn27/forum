@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import styled, { keyframes } from "styled-components";
 
 import { Icon } from "./common/Icon";
-import { Spacing } from "./Layout";
-import { Button } from "components/Form";
+import { Spacing } from "./common/Layout";
+import { Button } from "./common/Form";
 
 import theme from "../utils/theme";
 

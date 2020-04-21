@@ -8,7 +8,7 @@ import { Button } from "../common/Form";
 import * as Routes from "../../routes";
 
 import { useStore } from "../../store";
-import { CLEAR_AUTH_USER } from "store/auth";
+import { CLEAR_AUTH_USER } from "../../constants/actions";
 
 /**
  * Component that Logout out the user
