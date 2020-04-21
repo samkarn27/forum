@@ -135,7 +135,7 @@ const ProfileImageUpload = ({
       )}
 
       <Label authUser={authUser} htmlFor="image">
-        {authUser && <Overlay>{image ? "Update" : "Upload"}</Overlay>}
+        {authUser && <Overlay>{image ? "Change" : "Upload"}</Overlay>}
 
         {renderProfileImage()}
       </Label>

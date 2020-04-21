@@ -24,7 +24,7 @@ const ProfileImage = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: -140px;
+  margin-top: 40px;
 `;
 
 const FullName = styled.div`

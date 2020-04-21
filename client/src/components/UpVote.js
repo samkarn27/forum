@@ -85,7 +85,7 @@ const UpVote = ({ postId, user, likes, withText, fullWidth }) => {
           >
             <Icon icon="thumbs-up" />
             <Spacing inline left="xxs" />
-            {withText && <b>Like</b>}
+            {withText && <b>UpVote</b>}
           </StyledButton>
         );
       }}
