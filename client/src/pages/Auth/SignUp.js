@@ -82,7 +82,6 @@ const SignUp = ({ history, refetch }) => {
 
   const handleSubmit = (e, signup) => {
     e.preventDefault();
-    debugger;
     const error = validate();
     if (error) {
       setError(error);
@@ -90,7 +89,6 @@ const SignUp = ({ history, refetch }) => {
     }
 
     signup().then(async ({ data }) => {
-      debugger;
       localStorage.setItem("token", data.signup.token);
       await refetch();
       history.push(Routes.HOME);

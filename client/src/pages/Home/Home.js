@@ -74,7 +74,6 @@ const Home = () => {
       >
         {({ data, loading, fetchMore, networkStatus }) => {
           if (loading && networkStatus === 1) {
-            debugger;
             return (
               <Skeleton
                 height={500}

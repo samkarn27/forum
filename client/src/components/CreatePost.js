@@ -7,7 +7,7 @@ import { Error } from "./common/Text";
 import { Button } from "./common/Form";
 import UserImage from "./common/UserImage";
 
-import ImageUpload from "./ImageUpload";
+//import ImageUpload from "./ImageUpload";
 
 import { GET_FOLLOWED_POSTS, CREATE_POST } from "../graphql/Post/index";
 import { GET_AUTH_USER, GET_USER_POSTS } from "../graphql/User/index";
@@ -97,24 +97,6 @@ const CreatePost = () => {
 
   const handleOnFocus = () => setIsFocused(true);
 
-  const handlePostImageUpload = (e) => {
-    const file = e.target.files[0];
-
-    if (!file) return;
-
-    if (file.size >= MAX_POST_IMAGE_SIZE) {
-      message.error(
-        `File size should be less then ${MAX_POST_IMAGE_SIZE / 1000000}MB`
-      );
-      return;
-    }
-
-    setImage(file);
-
-    setIsFocused(true);
-    e.target.value = null;
-  };
-
   const handleTitleChange = (e) => setTitle(e.target.value);
 
   const handleSubmit = async (e, createPost) => {
@@ -171,12 +153,8 @@ const CreatePost = () => {
                     value={title}
                     onFocus={handleOnFocus}
                     onChange={handleTitleChange}
-                    placeholder="Add a post"
+                    placeholder="Ask your questions"
                   />
-
-                  {!isFocused && (
-                    <ImageUpload handleChange={handlePostImageUpload} />
-                  )}
                 </Wrapper>
 
                 {image && (
@@ -189,11 +167,6 @@ const CreatePost = () => {
 
                 {isFocused && (
                   <Options>
-                    <ImageUpload
-                      label="Photo"
-                      handleChange={handlePostImageUpload}
-                    />
-
                     <Buttons>
                       <Button text type="button" onClick={handleReset}>
                         Cancel

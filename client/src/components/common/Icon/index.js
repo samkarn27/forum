@@ -6,7 +6,7 @@ import SVGSTORE_PATH from "../../../utils/svgstore-path";
 import iconSizes from "../../../styles/mixins/_icon.scss";
 import "./icon.scss";
 
-const DEFAULT_ICON_SIZE = "md";
+const DEFAULT_ICON_SIZE = "sm";
 const iconPrefix = "icon-";
 
 const allowedSizes = Object.keys(iconSizes)

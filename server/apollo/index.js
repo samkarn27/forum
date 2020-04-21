@@ -14,7 +14,6 @@ export const pubSub = new PubSub();
  */
 const checkAuthorization = (token) => {
   return new Promise(async (resolve, reject) => {
-    debugger;
     try {
       console.log("jwt", jwt);
       console.log("token", token);
@@ -32,9 +31,8 @@ const checkAuthorization = (token) => {
 };
 
 export const generateAuthToken = (user, secret, expiresIn) => {
-  debugger;
   const { password, fullName, email } = user;
-  debugger;
+
   console.log("generate auth token ", user);
 
   return jwt.sign({ password, fullName, email }, secret, { expiresIn });
