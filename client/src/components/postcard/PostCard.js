@@ -203,7 +203,7 @@ const PostCard = ({
           </Author>
 
           <Button ghost onClick={openOption}>
-            <Icon icon="comment-dots" />
+            <Icon icon="ellipsis-h" />
           </Button>
         </TopRow>
 

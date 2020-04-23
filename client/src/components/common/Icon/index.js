@@ -8,12 +8,13 @@ import "./icon.scss";
 
 const DEFAULT_ICON_SIZE = "sm";
 const iconPrefix = "icon-";
+const DEFAULT_FILL = "#676869";
 
 const allowedSizes = Object.keys(iconSizes)
   .filter((size) => size.startsWith(iconPrefix))
   .map((size) => size.replace(iconPrefix, ""));
 
-export const Icon = ({ className, icon, style, size }) => {
+export const Icon = ({ className, icon, style, size, fillcolor }) => {
   if (!allowedSizes.includes(size)) {
     size = DEFAULT_ICON_SIZE;
   }
@@ -26,6 +27,7 @@ export const Icon = ({ className, icon, style, size }) => {
     <svg
       className={`${iconClassName}`}
       name={`icon-${icon}`}
+      fill={fillcolor || DEFAULT_FILL}
       xmlns="http://www.w3.org/2000/svg"
       xmlnsXlink="http://www.w3.org/1999/xlink"
       focusable={false}
@@ -43,10 +45,12 @@ Icon.propTypes = {
   icon: PropTypes.string.isRequired,
   style: PropTypes.object,
   size: PropTypes.oneOf(allowedSizes),
+  fillcolor: PropTypes.string,
 };
 
 Icon.defaultProps = {
   className: "",
   style: {},
-  size: "md",
+  size: "sm",
+  fillcolor: "",
 };

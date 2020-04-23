@@ -20,7 +20,7 @@ $iconSizes: (
   }
 }
 
-@mixin icon-size($size: "md") {
+@mixin icon-size($size: "sm") {
   $iconSize: map-get($iconSizes, $size);
   height: $iconSize;
   width: $iconSize;
