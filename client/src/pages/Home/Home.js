@@ -22,14 +22,6 @@ import { HOME_PAGE_POSTS_LIMIT } from "../../constants/size";
 
 import * as Routes from "../../routes";
 
-const Empty = styled.div`
-  padding: ${(p) => p.theme.spacing.sm};
-  border: 1px solid ${(p) => p.theme.colors.border.main};
-  border-radius: ${(p) => p.theme.radius.sm};
-  margin-top: ${(p) => p.theme.spacing.lg};
-  background-color: ${(p) => p.theme.colors.white};
-`;
-
 const StyledA = styled(Anchor)`
   text-decoration: underline;
   font-weight: ${(p) => p.theme.font.weight.bold};
