@@ -82,7 +82,7 @@ const createApolloClient = (apolloConfig) => {
 export default (serverUrl) => {
   const serverWebSoketUrl =
     serverUrl &&
-    serverUrl.replace("https://", "ws://").replace("http://", "ws://");
+    serverUrl.replace("https://", "wss://").replace("http://", "ws://");
   const authLink = createAuthenticationLink();
   const uploadLink = createUploadLink({ uri: serverUrl });
 
